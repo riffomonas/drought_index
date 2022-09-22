@@ -36,13 +36,24 @@ quadruple <- function(x){
 widths <- c(11, 4, 2, 4, rep(c(5, 1, 1, 1), 31))
 headers <- c("ID", "YEAR", "MONTH", "ELEMENT", unlist(map(1:31, quadruple)))
 
-dly_files <- list.files("data/ghcnd_all", full.names = TRUE)
+    map_dfr(., ~read_tsv(archive_read("write_dir.tar.gz", .x)))
 
-read_fwf(dly_files,
+
+dly_files <- archive("data/ghcnd_all.tar.gz") %>%
+    filter(str_detect(path, "dly")) %>%
+    slice_sample(n = 12) %>%
+    pull(path)
+
+Sys.time()
+dly_files %>%
+    map_dfr(., ~read_fwf(archive_read("data/ghcnd_all.tar.gz", .x),
          fwf_widths(widths, headers),
          na = c("NA", "-9999"),
          col_types = cols(.default = col_character()),
-         col_select = c(ID, YEAR, MONTH, ELEMENT, starts_with("VALUE"))) %>%
+         col_select = c(ID, YEAR, MONTH, ELEMENT, starts_with("VALUE"))))
+Sys.time()
+
+    # %>%
     rename_all(tolower) %>%
     filter(element == "PRCP") %>%
     select(-element) %>% 
