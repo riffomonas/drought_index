@@ -14,15 +14,11 @@ lat_long_prcp <- inner_join(prcp_data, station_data, by = "id") %>%
   group_by(latitude, longitude, year) %>%
   summarize(mean_prcp = mean(prcp), .groups = "drop")
 
-this_year <- lat_long_prcp %>%
-  filter(year == 2022) %>%
-  select(-year)
 
-inner_join(lat_long_prcp, this_year, by = c("latitude", "longitude")) %>%
-  rename(all_years = mean_prcp.x,
-         this_year = mean_prcp.y) %>%
+lat_long_prcp %>%
   group_by(latitude, longitude) %>%
-  summarize(z_score = (min(this_year) - mean(all_years)) / sd(all_years),
-         n = n(),
-         .groups = "drop") %>%
-  filter(n >= 50)
+  mutate(z_score = (mean_prcp - mean(mean_prcp)) / sd(mean_prcp),
+         n = n()) %>%
+  ungroup() %>%
+  filter(n >= 50 & year == 2022) %>%
+  select(-n, -mean_prcp, -year)
