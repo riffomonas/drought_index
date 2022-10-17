@@ -6,7 +6,7 @@ rule targets:
         "data/ghcnd-stations.txt",
         "data/ghcnd_tidy.tsv.gz",
         "data/ghcnd_regions_years.tsv",
-        "figures/world_drought.png"
+        "visuals/world_drought.png"
 
 
 rule get_all_archive:
@@ -85,7 +85,7 @@ rule plot_drought_by_region:
         prcp_data = "data/ghcnd_tidy.tsv.gz",
         station_data = "data/ghcnd_regions_years.tsv"
     output:
-        "figures/world_drought.png"
+        "visuals/world_drought.png"
     shell:
         """
         {input.r_script}
