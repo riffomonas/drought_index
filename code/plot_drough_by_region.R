@@ -12,7 +12,7 @@ station_data <- read_tsv("data/ghcnd_regions_years.tsv")
 # anti_join(station_data, prcp_data, by = "id")
 
 lat_long_prcp <- inner_join(prcp_data, station_data, by = "id") %>%
-  filter((year != first_year & year != last_year) | year == 2022) %>% 
+  filter((year != first_year & year != last_year) | year == year(today())) %>% 
   group_by(latitude, longitude, year) %>%
   summarize(mean_prcp = mean(prcp), .groups = "drop")
 
@@ -24,7 +24,7 @@ lat_long_prcp %>%
   mutate(z_score = (mean_prcp - mean(mean_prcp)) / sd(mean_prcp),
          n = n()) %>%
   ungroup() %>%
-  filter(n >= 50 & year == 2022) %>%
+  filter(n >= 50 & year == year(today())) %>%
   select(-n, -mean_prcp, -year) %>% 
   mutate(z_score = if_else(z_score > 2, 2, z_score),
          z_score = if_else(z_score < -2, -2, z_score)) %>%
@@ -32,13 +32,14 @@ lat_long_prcp %>%
     geom_tile() +
     coord_fixed() +
     scale_fill_gradient2(name = NULL,
-                         low = "#d8b365", mid = "#f5f5f5", high = "#5ab4ac",
+                         low = "#a6611a", mid = "#f5f5f5", high = "#018571",
                          midpoint = 0,
                          breaks = c(-2, -1, 0, 1, 2),
                          labels = c("<-2", "-1", "0", "1", ">2")) +
     theme(plot.background = element_rect(fill = "black", color = "black"),
           panel.background = element_rect(fill = "black"),
           plot.title = element_text(color = "#f5f5f5", size = 18),
+          plot.title.position = "plot",
           plot.subtitle = element_text(color = "#f5f5f5"),
           plot.caption =  element_text(color = "#f5f5f5"),
           panel.grid = element_blank(),
