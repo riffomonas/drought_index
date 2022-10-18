@@ -1,5 +1,6 @@
 data/
 Rplots.pdf
+.vscode/
 
 # History files
 .Rhistory

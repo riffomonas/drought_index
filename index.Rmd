@@ -1,0 +1,33 @@
+---
+title: Drought index for world
+author: Pat Schloss
+output: html_document
+email_address: pat@riffomonas.org
+github_repo: https://github.com/riffomonas/drought_index
+---
+
+```{r echo = FALSE, message = FALSE}
+library(lubridate)
+```
+
+```{css echo = FALSE}
+.author, .title {
+  display: none;
+}
+
+.main-container {
+  max-width: 100%;
+}
+
+body {
+  background-color: black;
+  color: #f5f5f5;
+  font-size: 1.2vw;
+}
+```
+
+![](visuals/world_drought.png)
+
+
+Last updated on `r today()`  
+Site [developed](`r rmarkdown::metadata$github_repo`) by [Pat Schloss](mailto:`r rmarkdown::metadata$email_address`)
