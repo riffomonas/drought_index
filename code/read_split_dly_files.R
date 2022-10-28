@@ -29,7 +29,7 @@ library(lubridate)
 # SFLAG31    269-269   Character
 # ------------------------------
 
-tday_julian <- yday(today())
+tday_julian <- yday(today()-5)
 window <- 30
 
 quadruple <- function(x){
