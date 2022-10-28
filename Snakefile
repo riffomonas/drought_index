@@ -94,7 +94,7 @@ rule get_regions_years:
 
 rule plot_drought_by_region:
     input: 
-        r_script = "code/plot_drough_by_region.R",
+        r_script = "code/plot_drought_by_region.R",
         prcp_data = "data/ghcnd_tidy.tsv.gz",
         station_data = "data/ghcnd_regions_years.tsv"
     output:
