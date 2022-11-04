@@ -71,3 +71,11 @@ lat_long_prcp %>%
          caption = "Precipitation data collected from GHCN daily data at NOAA")
 
 ggsave("visuals/world_drought.png", width = 8, height = 4)
+
+world_map <- map_data("world")
+
+ggplot(data = world_map, aes(x=long, y = lat, map_id = region)) + 
+  geom_map(map = world_map, fill = NA) +
+  coord_fixed() +
+  theme(panel.background = element_rect(fill = "black"),
+        plot.background =  element_rect(fill = "black"))
