@@ -33,6 +33,12 @@ start <- case_when(year(buffered_start) != year(buffered_end) ~ format(buffered_
 
 date_range <- glue("{start} to {end}")
 
+world_map <- map_data("world") %>%
+  filter(region != "Antarctica") #%>%
+  # mutate(lat = round(lat),
+  #        long = round(long))
+
+
 lat_long_prcp %>%
   group_by(latitude, longitude) %>%
   mutate(z_score = (mean_prcp - mean(mean_prcp)) / sd(mean_prcp),
@@ -43,6 +49,10 @@ lat_long_prcp %>%
   mutate(z_score = if_else(z_score > 2, 2, z_score),
          z_score = if_else(z_score < -2, -2, z_score)) %>%
   ggplot(aes(x = longitude, y = latitude, fill = z_score)) +
+    geom_map(data = world_map, aes(map_id = region),
+             map = world_map, fill = NA, color = "#f5f5f5", size = 0.05,
+             inherit.aes = FALSE) +
+    expand_limits(x = world_map$long, y = world_map$lat) +
     geom_tile() +
     coord_fixed() +
     scale_fill_gradient2(name = NULL,
@@ -72,10 +82,3 @@ lat_long_prcp %>%
 
 ggsave("visuals/world_drought.png", width = 8, height = 4)
 
-world_map <- map_data("world")
-
-ggplot(data = world_map, aes(x=long, y = lat, map_id = region)) + 
-  geom_map(map = world_map, fill = NA) +
-  coord_fixed() +
-  theme(panel.background = element_rect(fill = "black"),
-        plot.background =  element_rect(fill = "black"))
