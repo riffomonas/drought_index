@@ -1,13 +1,13 @@
 #!/usr/bin/env Rscript
 
-library(tidyverse)
+`library(tidyverse)
 library(lubridate)
 library(glue)
 library(showtext)
 
 font_add_google("Roboto slab", family="roboto-slab")
 font_add_google("Montserrat", family="montserrat")
-
+`
 showtext_auto()
 showtext_opts(dpi = 300)
 
@@ -75,7 +75,8 @@ lat_long_prcp %>%
           legend.position = c(0.15, 0.0),
           legend.direction = "horizontal",
           legend.key.height = unit(0.25, "cm"),
-          axis.text = element_blank()) +
+          axis.text = element_blank(),
+          axis.ticks = element_blank()) +
     labs(title = glue("Amount of precipitation for {date_range}"),
          subtitle = "Standardized Z-scores for at least the past 50 years",
          caption = "Precipitation data collected from GHCN daily data at NOAA")

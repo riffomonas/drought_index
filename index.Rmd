@@ -37,3 +37,5 @@ body {
 
 Last updated on `r today()`  
 Site [developed](`r rmarkdown::metadata$github_repo`) by [Pat Schloss](mailto:`r rmarkdown::metadata$email_address`)
+
+<p style="color: black">`r now()`</p>
