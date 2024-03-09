@@ -1,6 +1,8 @@
 data/
+map_tempdir/
 Rplots.pdf
 .vscode/
+visuals/world_drought.gif
 
 # History files
 .Rhistory
